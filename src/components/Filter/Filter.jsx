@@ -1,9 +1,10 @@
-
 import s from '../Filter/Filter.module.css';
 
-import PropTypes from 'prop-types';
+import { useDispatch } from 'react-redux';
+import { changeFilter } from 'redux/filterReducer';
 
-export const Filter = ({ handelFilter }) => {
+export const Filter = () => {
+  const dispatch = useDispatch();
   return (
     <>
       <label htmlFor="filter">
@@ -12,13 +13,10 @@ export const Filter = ({ handelFilter }) => {
           type="text"
           name="filter"
           pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
-          onChange={handelFilter}
+          onChange={e => dispatch(changeFilter(e.target.value))}
           required
         />
       </label>
     </>
   );
-};
-Filter.propTypes = {
-  handelFilter: PropTypes.func,
 };

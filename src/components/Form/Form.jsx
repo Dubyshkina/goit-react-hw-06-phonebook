@@ -2,14 +2,20 @@ import { useState } from 'react';
 import PropTypes from 'prop-types';
 import s from '../Form/Form.module.css';
 import { nanoid } from 'nanoid';
+import { addContact } from 'redux/contactsReducer';
+import { useDispatch } from 'react-redux';
 
-export const Form = ({ addContact }) => {
+export const Form = ({ checkDuplicate }) => {
+  const dispatch = useDispatch();
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
 
   const handleAddContact = event => {
     event.preventDefault();
-    addContact({ name, number, id: nanoid() });
+    checkDuplicate(name)
+      ? alert(`${name} is already in contacts`)
+      : dispatch(addContact({ name, number, id: nanoid() }));
+
     setName('');
     setNumber('');
   };
@@ -53,5 +59,5 @@ export const Form = ({ addContact }) => {
   );
 };
 Form.propTypes = {
-  addContact: PropTypes.func.isRequired,
+  checkDuplicate: PropTypes.func.isRequired,
 };
